@@ -1,4 +1,3 @@
-import os
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException
@@ -11,12 +10,14 @@ from slowapi.errors import RateLimitExceeded
 from pathlib import Path
 import structlog
 from dotenv import load_dotenv
+import os
 
 
 import os
 import logging
 from app.api.v1 import  memory, search, categories
 from app.database import connection, models
+
 load_dotenv()
 
 # Configure structured logging
@@ -49,7 +50,7 @@ async def lifespan(app: FastAPI):
     # Startup
     try:
         models.Base.metadata.create_all(bind=connection.engine)
-        connection.create_fts_table_and_triggers()
+        
         logger.info("Database initialized successfully")
         yield
     except Exception as e:
@@ -89,7 +90,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         
 
 # CORS configuration for Render + frontend
-origins = ["http://localhost:5173", "http://localhost:3000"]
+origins = os.getenv("ALLOWED_ORIGINS", "*").split(","),
 
 
 

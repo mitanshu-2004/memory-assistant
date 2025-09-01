@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import or_, func, text
+from sqlalchemy import or_
 from typing import Dict, List
 from collections import defaultdict
 
@@ -11,10 +11,6 @@ from app.core import vector_store
 from ..deps import get_db
 
 router = APIRouter()
-
-def _escape_like(s: str) -> str:
-    """Escape LIKE wildcards for PostgreSQL"""
-    return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
 @router.get("/", response_model=search_models.SearchResults)
 def search_memories(
@@ -40,63 +36,30 @@ def search_memories(
             print(f"Vector search failed: {e}")
             # Continue without vector search
 
-    # 2) Keyword search using PostgreSQL full-text search
+    # 2) Keyword search using SQLite LIKE
     if search_type in ("hybrid", "keyword"):
-        # PostgreSQL full-text search with tsquery
         try:
-            # Clean query for tsquery - remove special characters and prepare
-            clean_q = " & ".join(word for word in q.split() if word.isalnum())
-            if clean_q:
-                fts_results = db.query(
-                    models.Memory.id,
-                    func.ts_rank(
-                        func.to_tsvector('english', 
-                                       func.coalesce(models.Memory.title, '') + ' ' + 
-                                       func.coalesce(models.Memory.content, '')),
-                        func.plainto_tsquery('english', q)
-                    ).label('rank')
-                ).filter(
-                    func.to_tsvector('english', 
-                                   func.coalesce(models.Memory.title, '') + ' ' + 
-                                   func.coalesce(models.Memory.content, '')).match(
-                                       func.plainto_tsquery('english', q)
-                                   )
-                ).order_by(text('rank DESC')).limit(50).all()
-                
-                for row in fts_results:
-                    # Use PostgreSQL's ts_rank score (normalize to 0-1)
-                    fts_score = min(1.0, float(row.rank) * 2)  # Scale ts_rank
-                    combined_scores[str(row.id)] = max(combined_scores[str(row.id)], fts_score)
-        except Exception as e:
-            print(f"FTS search failed: {e}")
-        
-        # Fallback: ILIKE search with trigrams for fuzzy matching
-        try:
-            safe = _escape_like(q)
-            like_pattern = f"%{safe}%"
+            like_pattern = f"%{q}%"
             
-            # Use similarity for better fuzzy matching if available
-            ilike_results = db.query(models.Memory.id, models.Memory.title, models.Memory.content).filter(
+            keyword_results = db.query(models.Memory.id, models.Memory.title, models.Memory.content).filter(
                 or_(
-                    models.Memory.title.ilike(like_pattern),
-                    models.Memory.content.ilike(like_pattern)
+                    models.Memory.title.like(like_pattern),
+                    models.Memory.content.like(like_pattern)
                 )
             ).limit(100).all()
             
-            for row in ilike_results:
-                # Score based on where match was found and query length
-                title_match = q.lower() in (row.title or "").lower()
-                content_match = q.lower() in (row.content or "").lower()
-                
-                if title_match:
-                    score = min(1.0, 0.4 + 0.6 * (len(q) / max(1, len(row.title or ""))))
-                else:
-                    score = min(0.8, 0.2 + 0.6 * (len(q) / max(1, len(row.content or ""))))
+            for row in keyword_results:
+                # Simple scoring for keyword matches
+                score = 0.5 # Base score for a keyword match
+                if q.lower() in (row.title or "").lower():
+                    score += 0.3 # Boost if found in title
+                if q.lower() in (row.content or "").lower():
+                    score += 0.2 # Boost if found in content
                 
                 combined_scores[str(row.id)] = max(combined_scores[str(row.id)], score)
                 
         except Exception as e:
-            print(f"ILIKE search failed: {e}")
+            print(f"Keyword search failed: {e}")
 
     if not combined_scores:
         return {"results": []}

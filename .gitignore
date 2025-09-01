@@ -6,7 +6,7 @@
 /backend/content_store
 /backend/local.db
 /backend/__pycache__/
-
+/backend/database
 # Frontend ignores
 /frontend/node_modules/
 /frontend/dist/

@@ -1,132 +1,99 @@
 # Memory Assistant
 
-Memory Assistant is a program that helps you save and find your notes, links, and pictures. It has a website part for you to use and a server part that does the work.
+Memory Assistant is a personal AI-powered memory assistant designed to help you capture, organize, and retrieve your thoughts, ideas, and experiences. It leverages advanced AI models to process and understand your inputs, making it easier to recall information when you need it most.
 
-## What it Does
+## Features
 
-*   **Group Your Notes:** Make different sections to keep your saved items organized.
-*   **Save Different Things:** You can save text, pictures, and website links.
-*   **See a Timeline:** Look at your saved items in the order you added them.
-*   **Find Your Stuff:** A search bar helps you find any item you have saved.
-*   **Smart Processing:** The server uses computer intelligence to understand the text you save.
+- **Capture Memories:** Easily record notes, ideas, and experiences.
+- **AI-Powered Organization:** Automatically categorize and link related memories.
+- **Intelligent Search:** Quickly find information using natural language queries.
+- **Timeline View:** Visualize your memories in a chronological order.
+- **Categorization:** Organize memories into custom categories for better management.
+- **Web Scraping:** Extract content from web pages to save as memories.
+- **Image Processing:** Analyze and extract information from images.
+- **Local AI Model Integration:** Utilizes local AI models for enhanced privacy and offline capabilities.
 
-## How It's Built
+## Project Structure
 
-The project has two parts: the `frontend` (the website you see) and the `backend` (the server that handles data).
-
-### Frontend
-
-The website is built using current web technologies.
-
-*   **Framework:** It uses [React](https://react.dev/) with [Vite](https://vitejs.dev/), which helps make development faster.
-*   **Language:** It's written in [TypeScript](https://www.typescriptlang.org/), which helps prevent errors by checking types.
-*   **Styling:** [Tailwind CSS](https://tailwindcss.com/) is used for styling the website.
-*   **State Management:** [Zustand](https://zustand-demo.pmnd.rs/) is used to manage the application's data and state.
-*   **Routing:** [React Router](https://reactrouter.com/) is used to move between different pages of the website.
-*   **Icons:** [Lucide React](https://lucide.dev/guide/packages/lucide-react) is used for the icons you see on the site.
+The project is divided into two main parts: `backend` and `frontend`.
 
 ### Backend
 
-The backend is a server program written in Python. It manages data and does the heavy lifting.
+The `backend` is built with FastAPI and Python, providing the core API for managing memories, AI processing, and data storage.
 
-*   **Framework:** It uses [FastAPI](https://fastapi.tiangolo.com/) to build the API, which makes it run fast.
-*   **Language:** It's written in [Python](https://www.python.org/).
-*   **Database:** It uses [PostgreSQL](https://www.postgresql.org/) to store information.
-*   **AI and Machine Learning:**
-    *   `sentence-transformers`: This is used to turn your text into number lists (vectors) so the computer can understand what it means.
-    *   `torch`: A library for machine learning tasks.
-    *   `llama_cpp_python`: A tool that helps the program use certain language models.
-*   **Vector Store:** It uses [ChromaDB](https://www.trychroma.com/) to store the number lists (vectors) from your text. This makes the search function able to find things based on meaning, not just exact words.
+- `app/api/v1`: Contains the API endpoints for memories, categories, and search.
+- `app/core`: Houses the AI processing logic and vector store integration.
+- `app/database`: Manages the database connection and models (SQLite).
+- `app/models`: Defines the data models for the application.
+- `app/utils`: Includes utilities for image processing, text extraction, and web scraping.
+- `memory.db`: The SQLite database file (located in `backend/database/`).
+- `requirements.txt`: Python dependencies.
 
-## How to Get Started
+### Frontend
 
-### Things You Need
+The `frontend` is a React application built with Vite, providing a user-friendly interface for interacting with the backend.
 
-*   [Node.js](https://nodejs.org/en) (version 18 or newer)
-*   [Python](https://www.python.org/downloads/) (version 3.10 or newer)
-*   [PostgreSQL](https://www.postgresql.org/download/)
+- `src/components`: Reusable UI components.
+- `src/pages`: Different views/pages of the application.
+- `src/services`: API service integrations.
+- `src/store`: Zustand store for state management.
+- `src/styles`: Global styles.
+- `src/types`: TypeScript type definitions.
+- `public`: Static assets.
+- `package.json`: Frontend dependencies and scripts.
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Node.js (LTS)
+- npm or yarn
 
 ### Installation
 
-**Frontend:**
-
-1.  Go to the `frontend` folder:
+1.  **Clone the repository:**
     ```bash
-    cd frontend
-    ```
-2.  Install the needed packages:
-    ```bash
-    npm install
+    git clone https://github.com/your-username/memory-assistant.git
+    cd memory-assistant
     ```
 
-**Backend:**
-
-1.  Go to the `backend` folder:
+2.  **Backend Setup:**
     ```bash
     cd backend
-    ```
-2.  Make a new virtual environment:
-    ```bash
-    python -m venv venv
-    ```
-3.  Activate the environment:
-    *   On Windows:
-        ```bash
-        venv\Scripts\activate
-        ```
-    *   On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
-4.  Install the needed packages:
-    ```bash
     pip install -r requirements.txt
-    ```
+    # Run database migrations if any (not explicitly defined in current structure, but good practice)
+    # python -m app.database.connection # or similar command to initialize db
 
-### Running the Application
+    # AI Model Setup:
+    # Download the Phi-3-mini-4k-instruct-q4.gguf model from:
+    # https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/blob/main/Phi-3-mini-4k-instruct-q4.gguf
+    # And place it in the `backend/models` folder.
 
-**Frontend:**
-
-1.  Go to the `frontend` folder.
-2.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-    The website will be running at `http://localhost:5173`.
-
-**Backend:**
-
-1.  Go to the `backend` folder.
-2.  Start the server:
-    ```bash
     uvicorn app.main:app --reload
     ```
-    The API will be running at `http://localhost:8000`.
+    The backend will run on `http://127.0.0.1:8000` by default.
 
-## Project Folders
+3.  **Frontend Setup:**
+    ```bash
+    cd ../frontend
+    npm install # or yarn install
 
-The project is split into two main folders: `frontend` and `backend`.
+    # Configuration:
+    # Create a `.env` file in the `frontend` directory.
+    # Add the backend API URL (e.g., VITE_API_URL=http://127.0.0.1:8000).
+    # Also, add the frontend URL(s) for allowed origins (e.g., VITE_ALLOWED_ORIGINS=http://localhost:5173 or VITE_ALLOWED_ORIGINS=http://localhost:5173,http://your-other-domain.com).
 
-*   `frontend/`: Holds the React website code.
-    *   `src/`: The main source code.
-        *   `components/`: Parts of the website that can be reused.
-        *   `pages/`: The different pages of the site.
-        *   `services/`: Code for talking to the backend.
-        *   `store/`: Code for managing the website's state.
-*   `backend/`: Holds the FastAPI server code.
-    *   `app/`: The main source code.
-        *   `api/`: The API routes.
-        *   `core/`: The main logic, including the AI parts.
-        *   `database/`: Code for connecting to the database.
-        *   `models/`: Defines the shape of the data.
+    npm run dev # or yarn dev
+    ```
+    The frontend will run on `http://localhost:5173` by default.
 
-## API Routes
+## Usage
 
-The backend has several API routes for the frontend to use.
+Once both the backend and frontend are running, you can access the Memory Assistant in your web browser at `http://localhost:5173`.
 
-*   `POST /api/v1/memories/`: Add a new item.
-*   `GET /api/v1/memories/`: Get a list of all items.
-*   `GET /api/v1/memories/{memory_id}`: Get one specific item.
-*   `POST /api/v1/categories/`: Add a new category.
-*   `GET /api/v1/categories/`: Get a list of all categories.
-*   `GET /api/v1/search/`: Search for items.
+-   **Capture Memories:** Use the "Create Memory" section to add new notes, text, or web content.
+-   **Organize:** Assign categories to your memories.
+-   **Search:** Use the search bar to find specific memories.
+-   **Timeline:** View your memories chronologically.
+
