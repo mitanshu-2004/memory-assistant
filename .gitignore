@@ -1,15 +1,17 @@
+# Backend ignores
 /backend/venv
 /backend/.env
 /backend/models
 /backend/data
 /backend/content_store
 /backend/local.db
+/backend/__pycache__/
 
-
-
+# Frontend ignores
 /frontend/node_modules/
 /frontend/dist/
 /frontend/package-lock.json
 /frontend/.env
 
+# VSCode settings
 .vscode/
