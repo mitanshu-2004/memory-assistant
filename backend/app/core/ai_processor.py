@@ -1,25 +1,52 @@
+"""
+AI Processing Module
+
+This module handles all AI-related functionality including:
+- Text embeddings generation using sentence transformers
+- LLM-based text processing (summaries, titles, tags, categories)
+- Metadata extraction and content analysis
+- Fallback strategies for when AI models are unavailable
+
+The module uses a local Phi-3 model for text generation and sentence-transformers
+for embeddings, providing privacy-focused AI capabilities.
+"""
+
 from sentence_transformers import SentenceTransformer
 from llama_cpp import Llama
 import os
 from pathlib import Path
 import json
 import re
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 import logging
 from functools import lru_cache
 
+from app.config import get_model_path, settings
+
 # Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- Embedding Model Setup ---
 @lru_cache(maxsize=1)
 def get_embedding_model():
-    """Lazy load embedding model with caching"""
-    return SentenceTransformer('all-MiniLM-L6-v2')
+    """
+    Lazy load embedding model with caching.
+    
+    Returns:
+        SentenceTransformer: The embedding model instance
+    """
+    return SentenceTransformer(settings.embedding_model)
 
-def generate_embedding(text: str):
-    """Generate embeddings with optimized preprocessing"""
+def generate_embedding(text: str) -> List[float]:
+    """
+    Generate embeddings with optimized preprocessing.
+    
+    Args:
+        text: Input text to generate embeddings for
+        
+    Returns:
+        List[float]: Embedding vector
+    """
     # Clean and normalize text
     cleaned_text = re.sub(r'\s+', ' ', text.strip())
     if not cleaned_text:
@@ -45,7 +72,7 @@ def generate_embeddings_batch(texts: List[str]) -> List[List[float]]:
     
     return [emb.tolist() for emb in embeddings]
 
-MODEL_PATH = Path(__file__).parent.parent.parent / "models" / "Phi-3-mini-4k-instruct-q4.gguf"
+MODEL_PATH = get_model_path()
 
 llm = None
 

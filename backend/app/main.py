@@ -1,3 +1,15 @@
+"""
+Memory Assistant FastAPI Application
+
+Main application entry point that configures the FastAPI app with:
+- CORS middleware
+- Rate limiting
+- Static file serving
+- API routes
+- Database initialization
+- Error handling
+"""
+
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException
@@ -7,18 +19,11 @@ from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from pathlib import Path
 import structlog
-from dotenv import load_dotenv
-import os
 
-
-import os
-import logging
-from app.api.v1 import  memory, search, categories
+from app.config import settings, get_allowed_origins, get_content_store_path
+from app.api.v1 import memory, search, categories
 from app.database import connection, models
-
-load_dotenv()
 
 # Configure structured logging
 structlog.configure(
@@ -61,11 +66,11 @@ async def lifespan(app: FastAPI):
         logger.info("Application shutting down")
 
 app = FastAPI(
-    title="AI Memory Assistant",
-    description="Production AI-powered memory assistant",
-    version="1.0.0",
+    title=settings.app_name,
+    description="AI-powered memory management system with semantic search and intelligent categorization",
+    version=settings.app_version,
     lifespan=lifespan,
-    docs_url="/docs" ,
+    docs_url="/docs",
     redoc_url="/redoc"
 )
 
@@ -89,10 +94,8 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
         
 
-# CORS configuration for Render + frontend
-origins = os.getenv("ALLOWED_ORIGINS", "*").split(","),
-
-
+# CORS configuration
+origins = get_allowed_origins()
 
 app.add_middleware(
     CORSMiddleware,
@@ -104,9 +107,7 @@ app.add_middleware(
 )
 
 # Content storage setup
-content_path = Path("./content_store")
-content_path.mkdir(parents=True, exist_ok=True)
-
+content_path = get_content_store_path()
 app.mount("/content", StaticFiles(directory=str(content_path)), name="content")
 
 # Include routers with rate limiting
@@ -114,17 +115,20 @@ app.include_router(memory.router, prefix="/api/v1/memory", tags=["Memory"])
 app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
 app.include_router(categories.router, prefix="/api/v1/categories", tags=["Categories"])
 
-@app.get("/")
+@app.get("/", tags=["Health"])
 async def root(request: Request):
+    """Root endpoint providing basic API information."""
     return {
-        "message": "AI Memory Assistant API",
+        "message": f"{settings.app_name} API",
         "status": "running",
-        "version": "1.0.0"
+        "version": settings.app_version,
+        "docs": "/docs",
+        "health": "/health"
     }
 
-@app.get("/health")
+@app.get("/health", tags=["Health"])
 async def health_check():
-    """Comprehensive health check"""
+    """Comprehensive health check endpoint."""
     try:
         # Test database connection
         with connection.engine.connect() as conn:
