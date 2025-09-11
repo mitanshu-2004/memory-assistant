@@ -1,53 +1,39 @@
 # Memory Assistant
 
-<div align="center">
-
-![Memory Assistant](https://img.shields.io/badge/Memory%20Assistant-v1.0.0-green)
-![Python](https://img.shields.io/badge/Python-3.8+-blue)
-![React](https://img.shields.io/badge/React-18+-61dafb)
-![FastAPI](https://img.shields.io/badge/FastAPI-Latest-009688)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-**AI-powered memory management system with semantic search and intelligent categorization**
-
-[Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation) • [Deployment](#deployment) • [Contributing](#contributing)
-
-</div>
-
 ## Overview
 
-Memory Assistant is a sophisticated AI-powered memory management application that helps you capture, organize, and retrieve your digital memories. Built with privacy in mind, it uses local AI models to provide intelligent content processing without sending your data to external services.
+Memory Assistant is a program for managing digital information. It helps you save, organize, and find your content. The system uses local AI models to process information, so your data is not sent to external services.
 
 ### Key Features
 
-- 🧠 **AI-Powered Processing**: Automatic title generation, summarization, and categorization
-- 🔍 **Semantic Search**: Find content by meaning, not just keywords
-- 📁 **Multi-Format Support**: Store text, files, images, and web pages
-- 🏷️ **Smart Organization**: Automatic tagging and category suggestions
-- 📊 **Timeline View**: Chronological memory organization
-- 🔒 **Privacy-First**: All processing happens locally
-- ⚡ **Real-Time**: Instant search and filtering
-- 🎨 **Modern UI**: Beautiful, responsive interface
+-   **AI Processing**: Automatically creates titles, summaries, and categories for your content.
+-   **Semantic Search**: Find content based on its meaning, not just keywords.
+-   **Multi-Format Support**: Store text, files, images, and web pages.
+-   **Smart Organization**: Get suggestions for tags and categories.
+-   **Timeline View**: See your saved items in the order they were created.
+-   **Privacy-Focused**: All processing is done on your local machine.
+-   **Real-Time**: Get instant search and filtering results.
+-   **Modern UI**: A clean and responsive user interface.
 
 ## Technology Stack
 
 ### Backend
-- **FastAPI**: Modern, fast web framework for building APIs
-- **SQLAlchemy**: SQL toolkit and ORM
-- **SQLite**: Lightweight database
-- **ChromaDB**: Vector database for semantic search
-- **Phi-3**: Local LLM for text generation
-- **Sentence Transformers**: Embedding generation
-- **Pydantic**: Data validation and settings management
+-   **FastAPI**: A web framework for building APIs.
+-   **SQLAlchemy**: A SQL toolkit and Object-Relational Mapper.
+-   **SQLite**: A lightweight database.
+-   **ChromaDB**: A vector database for semantic search.
+-   **Phi-3**: A local language model for text generation.
+-   **Sentence Transformers**: A library for creating text embeddings.
+-   **Pydantic**: A library for data validation.
 
 ### Frontend
-- **React 18**: Modern React with hooks and concurrent features
-- **TypeScript**: Type-safe JavaScript
-- **Vite**: Fast build tool and dev server
-- **Tailwind CSS**: Utility-first CSS framework
-- **Zustand**: Lightweight state management
-- **React Router**: Client-side routing
-- **Axios**: HTTP client
+-   **React 18**: A JavaScript library for building user interfaces.
+-   **TypeScript**: A typed superset of JavaScript.
+-   **Vite**: A build tool and development server.
+-   **Tailwind CSS**: A utility-first CSS framework.
+-   **Zustand**: A state management library.
+-   **React Router**: A library for routing in React applications.
+-   **Axios**: A library for making HTTP requests.
 
 ## Project Structure
 
@@ -83,134 +69,61 @@ memory-assistant/
 
 ### Prerequisites
 
-- **Python 3.8+** with pip
-- **Node.js 16+** with npm
-- **4GB+ RAM** (for AI models)
-- **2GB+ free disk space**
+-   **Python 3.8+** with pip
+-   **Node.js 16+** with npm
+-   **4GB+ RAM** (for AI models)
+-   **2GB+** free disk space
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/memory-assistant.git
-   cd memory-assistant
-   ```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/memory-assistant.git
+    cd memory-assistant
+    ```
 
-2. **Setup Backend:**
-   ```bash
-   cd backend
-   
-   # Install Python dependencies
-   pip install -r requirements.txt
-   
-   # Download AI model (required for AI features)
-   mkdir -p models
-   wget https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf -O models/Phi-3-mini-4k-instruct-q4.gguf
-   
-   # Start the backend server
-   uvicorn app.main:app --reload
-   ```
-   
-   Backend will be available at `http://localhost:8000`
+2.  **Setup Backend:**
+    ```bash
+    cd backend
+    
+    # Install Python dependencies
+    pip install -r requirements.txt
+    
+    # Download AI model (required for AI features)
+    mkdir -p models
+    wget https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf -O models/Phi-3-mini-4k-instruct-q4.gguf
+    
+    # Start the backend server
+    uvicorn app.main:app --reload
+    ```
+    
+    The backend will be available at `http://localhost:8000`.
 
-3. **Setup Frontend:**
-   ```bash
-   cd ../frontend
-   
-   # Install dependencies
-   npm install
-   
-   # Start development server
-   npm run dev
-   ```
-   
-   Frontend will be available at `http://localhost:5173`
+3.  **Setup Frontend:**
+    ```bash
+    cd ../frontend
+    
+    # Install dependencies
+    npm install
+    
+    # Start development server
+    npm run dev
+    ```
+    
+    The frontend will be available at `http://localhost:5173`.
 
 ### First Steps
 
-1. **Open the application** at `http://localhost:5173`
-2. **Create your first memory** by clicking "Add Memory"
-3. **Try the search** to find your memories
-4. **Explore the timeline** to see your memories chronologically
+1.  **Open the application** at `http://localhost:5173`.
+2.  **Create your first memory** by clicking "Add Memory".
+3.  **Try the search** to find your saved items.
+4.  **Explore the timeline** to see your items in chronological order.
 
 ## Documentation
 
-- 📚 **[API Documentation](docs/API.md)** - Complete API reference
-- 🏗️ **[Architecture Guide](docs/ARCHITECTURE.md)** - System design and components
-- 🚀 **[Deployment Guide](docs/DEPLOYMENT.md)** - Production deployment instructions
-
-## Features in Detail
-
-### AI-Powered Processing
-- **Automatic Title Generation**: Creates descriptive titles from content
-- **Smart Summarization**: Generates concise summaries of long content
-- **Intelligent Tagging**: Automatically suggests relevant tags
-- **Category Classification**: Suggests appropriate categories
-
-### Search Capabilities
-- **Semantic Search**: Find content by meaning using vector embeddings
-- **Keyword Search**: Traditional text-based search
-- **Hybrid Search**: Combines semantic and keyword search for best results
-- **Real-time Filtering**: Instant search results as you type
-
-### Content Management
-- **Multi-format Support**: Text, files, images, and web pages
-- **File Processing**: Extract text from PDFs, Word docs, and images
-- **Web Scraping**: Save content from any web page
-- **Timeline Organization**: View memories chronologically
-
-### Privacy & Security
-- **Local Processing**: All AI processing happens on your machine
-- **No External APIs**: Your data never leaves your system
-- **Local Storage**: All data stored locally in SQLite and ChromaDB
-- **Rate Limiting**: Built-in protection against abuse
-
-## Deployment
-
-### Docker Deployment (Recommended)
-```bash
-# Clone and build
-git clone https://github.com/your-username/memory-assistant.git
-cd memory-assistant
-
-# Start with Docker Compose
-docker-compose up -d
-```
-
-### Manual Deployment
-See the [Deployment Guide](docs/DEPLOYMENT.md) for detailed instructions on:
-- Server setup and configuration
-- SSL/HTTPS setup
-- Production optimizations
-- Monitoring and maintenance
-
-## Development
-
-### Setting up Development Environment
-```bash
-# Backend development
-cd backend
-pip install -r requirements.txt
-pip install -r requirements-dev.txt  # Development dependencies
-uvicorn app.main:app --reload
-
-# Frontend development
-cd frontend
-npm install
-npm run dev
-```
-
-### Code Quality
-- **Backend**: Uses black, flake8, and mypy for code quality
-- **Frontend**: Uses ESLint, Prettier, and TypeScript for code quality
-- **Testing**: pytest for backend, Jest for frontend
-
-### Contributing
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+-   **[API Documentation](docs/API.md)** - A complete reference for the API.
+-   **[Architecture Guide](docs/ARCHITECTURE.md)** - Information about the system's design and components.
+-   **[Deployment Guide](docs/DEPLOYMENT.md)** - Instructions for deploying the application.
 
 ## Configuration
 
@@ -241,52 +154,14 @@ RATE_LIMIT_PER_MINUTE=60
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
-## Troubleshooting
+## Contributing
 
-### Common Issues
-
-**Backend won't start:**
-- Check Python version (3.8+ required)
-- Verify all dependencies are installed
-- Check if AI model file exists in `backend/models/`
-
-**AI features not working:**
-- Ensure Phi-3 model is downloaded and in correct location
-- Check available RAM (4GB+ recommended)
-- Verify model file permissions
-
-**Frontend build errors:**
-- Clear node_modules and reinstall: `rm -rf node_modules && npm install`
-- Check Node.js version (16+ required)
-- Verify environment variables
-
-**Database issues:**
-- Check database file permissions
-- Ensure sufficient disk space
-- Verify SQLite installation
-
-## Performance Tips
-
-### For Better Performance
-- **RAM**: 8GB+ recommended for smooth AI processing
-- **Storage**: Use SSD for better database performance
-- **CPU**: Multi-core processor recommended for AI models
-- **Network**: Stable connection for web scraping features
-
-### Optimization Settings
-- Adjust `RATE_LIMIT_PER_MINUTE` based on your needs
-- Configure `MAX_FILE_SIZE` for file upload limits
-- Set appropriate `LOG_LEVEL` for production
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/new-feature`).
+3.  Commit your changes (`git commit -m 'Add new feature'`).
+4.  Push to the branch (`git push origin feature/new-feature`).
+5.  Open a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- **Microsoft Phi-3**: For the local LLM model
-- **Hugging Face**: For the sentence transformers model
-- **FastAPI**: For the excellent web framework
-- **React**: For the frontend framework
-- **ChromaDB**: For vector storage capabilities
-
+This project is licensed under the MIT License. See the LICENSE file for details.
