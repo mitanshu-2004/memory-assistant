@@ -13,12 +13,19 @@ COPY ./requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create models directory
+RUN mkdir -p /app/models
+
+# Download model
+RUN wget -O /app/models/Phi-3-mini-4k-instruct-q4.gguf https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf
+
 # Copy app code
 COPY ./app /app/app
 
 # Copy the startup script and fix line endings
 COPY render-startup.sh .
-RUN sed -i 's/$//' render-startup.sh
+RUN sed -i 's/
+$//' render-startup.sh
 RUN chmod +x render-startup.sh
 
 # Expose backend port

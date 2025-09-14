@@ -20,14 +20,13 @@ from app.models import memory_item as memory_models
 from app.core import ai_processor, vector_store
 from app.utils import text_extractor, web_scraper, image_processor
 from ..deps import get_db
-import os
+from app.config import get_content_store_path
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-CONTENT_STORAGE_PATH = Path("./content_store")
-CONTENT_STORAGE_PATH.mkdir(parents=True, exist_ok=True)
+CONTENT_STORAGE_PATH = get_content_store_path()
 
 class URLRequest(BaseModel):
     url: str

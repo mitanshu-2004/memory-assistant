@@ -8,7 +8,8 @@ database connections, AI model settings, and application constants.
 import os
 from pathlib import Path
 from typing import List, Optional
-from pydantic import BaseSettings, Field
+from pydantic_settings import BaseSettings
+from pydantic import Field
 
 
 class Settings(BaseSettings):

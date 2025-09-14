@@ -1,6 +1,7 @@
 fastapi
 sqlalchemy
-pydantic
+pydantic<2.0
+pydantic-settings
 python-dotenv
 uvicorn
 slowapi
