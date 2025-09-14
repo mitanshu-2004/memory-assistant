@@ -24,8 +24,7 @@ COPY ./app /app/app
 
 # Copy the startup script and fix line endings
 COPY render-startup.sh .
-RUN sed -i 's/
-$//' render-startup.sh
+RUN sed -i 's/\n$//' render-startup.sh
 RUN chmod +x render-startup.sh
 
 # Expose backend port
