@@ -119,6 +119,44 @@ memory-assistant/
 3.  **Try the search** to find your saved items.
 4.  **Explore the timeline** to see your items in chronological order.
 
+## Deployment
+
+### Frontend (Vercel)
+
+The frontend is optimized for deployment on [Vercel](https://vercel.com/).
+
+1.  **Push your code** to a Git repository (GitHub, GitLab, or Bitbucket).
+2.  **Create a new project** on Vercel and import your Git repository.
+3.  **Configure the build settings:**
+    -   **Framework Preset:** `Vite`
+    -   **Build Command:** `npm run build`
+    -   **Output Directory:** `dist`
+4.  **Add Environment Variables:**
+    -   `VITE_API_BASE_URL`: The URL of your deployed backend (e.g., your Render service URL).
+5.  **Deploy!**
+
+### Backend (Render)
+
+The backend is set up for deployment on [Render](https://render.com/) using Docker.
+
+1.  **Push your code** to a Git repository.
+2.  **Create a new Web Service** on Render and connect it to your Git repository.
+3.  **Configure the service:**
+    -   **Environment:** `Docker`
+    -   **Root Directory:** `backend`
+    -   **DockerfilePath:** `Dockerfile` (should be detected automatically)
+4.  **Add a Persistent Disk:**
+    -   **Mount Path:** `/app/models`
+    -   **Size:** Choose a size large enough to store the AI model (e.g., 5 GB).
+5.  **Add Environment Variables:**
+    -   `DATABASE_URL`: `sqlite:////var/lib/sqlite/memory.db` (Render provides a managed SQLite service)
+    -   `MODEL_PATH`: `/app/models/Phi-3-mini-4k-instruct-q4.gguf`
+    -   `VECTOR_STORE_PATH`: `/app/data/vectors`
+    -   `CONTENT_STORE_PATH`: `/app/content_store`
+6.  **Deploy!**
+
+The first deployment will take some time as it needs to download the AI model. Subsequent deployments will be faster as the model will be persisted on the disk.
+
 ## Documentation
 
 -   **[API Documentation](docs/API.md)** - A complete reference for the API.
