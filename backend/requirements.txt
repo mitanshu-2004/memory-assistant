@@ -1,7 +1,6 @@
 fastapi
 sqlalchemy
-pydantic<2.0
-pydantic-settings
+pydantic
 python-dotenv
 uvicorn
 slowapi
@@ -15,4 +14,3 @@ PyPDF2
 python-docx
 pytesseract
 Pillow
-typing_extensions>=4.3.0

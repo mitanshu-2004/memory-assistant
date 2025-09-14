@@ -84,7 +84,7 @@ def initialize_llm():
             llm = Llama(
                 model_path=str(MODEL_PATH), 
                 n_ctx=4096, 
-                n_gpu_layers=0,  # Use CPU only
+                n_gpu_layers=-1,  # Use GPU if available
                 n_threads=os.cpu_count() // 2,  # Optimize thread usage
                 verbose=False,
                 use_mlock=True,  # Keep model in memory

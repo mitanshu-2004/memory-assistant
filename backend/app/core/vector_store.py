@@ -1,13 +1,15 @@
 import chromadb
 from pathlib import Path
-from app.config import get_vector_store_path
+import logging
+from .ai_processor import generate_embedding
 
 # Configure logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 # Always use local storage
-VECTOR_PATH = get_vector_store_path()
+VECTOR_PATH = Path("./data/vectors")
+VECTOR_PATH.mkdir(parents=True, exist_ok=True)
 
 # Persistent client (saves embeddings to disk locally)
 client = chromadb.PersistentClient(path=str(VECTOR_PATH))
