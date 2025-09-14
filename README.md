@@ -233,17 +233,3 @@ Configure your web server to:
 *   **Input Validation:** Utilizes Pydantic models for robust request and response validation, file type checking, and size limits.
 *   **Rate Limiting:** Implements IP-based rate limiting (60 requests per minute) to prevent abuse.
 *   **Production Security:** In production, ensure proper server security, restrict direct backend access, and use HTTPS for encrypted communication.
-
-## Changelog
-
-### [1.0.0] - 2024-01-XX
-
-*   Initial release of the Memory Assistant application.
-*   Backend API using FastAPI, SQLAlchemy, and SQLite.
-*   Frontend application using React, TypeScript, and Tailwind CSS.
-*   Local AI model integration for content processing.
-*   Semantic search feature using a vector database.
-*   Support for text, files, images, and URLs.
-*   Automatic generation of titles and summaries.
-*   Timeline view for chronological organization.
-*   File upload and web scraping capabilities.
