@@ -90,15 +90,6 @@ app/
 
 This guide will help you set up and run the Memory Assistant locally for development.
 
-### Prerequisites
-
-*   **Python:** 3.9 or higher
-*   **Node.js:** 16 or higher
-*   **npm:** (Node.js package manager)
-*   **pip:** (Python package installer)
-*   **Git**
-*   **Memory:** 4GB RAM minimum (8GB recommended for AI models)
-*   **Storage:** 2GB free space minimum
 
 ### Local Development Setup
 
